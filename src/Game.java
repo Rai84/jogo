@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.RED);
         g.fillRect(20, 20, vida*2, 20);
         bs.show();
-
+        //teste 
     }
 
     public static void main(String[] args) {                  //Metodo principal
