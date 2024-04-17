@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -13,7 +12,7 @@ public class Game extends Canvas implements Runnable{
 
     public static final int WIDTH = 640, HEIGHT = 480;
 
-    public int contador = 1000;                                //Contador de pontos
+    public int contador = 0;                                //Contador de pontos
     public int vida = 100;                                  //Vida do personagem
 
     public Game() {
@@ -38,7 +37,7 @@ public class Game extends Canvas implements Runnable{
 
 
         ImageIcon icon = new ImageIcon("src/img/favorito (2).png");
-        Image image = icon.getImage(); // Retrieve the Image from the ImageIcon
+        Image image = icon.getImage();  // Retrieve the Image from the ImageIcon
 
 
         if (vida > 0) {
