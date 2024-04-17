@@ -3,15 +3,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferStrategy;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable{
 
     public static final int WIDTH = 640, HEIGHT = 480;
 
-    public int contador = 0;                                //Contador de pontos
+    public int contador = 1000;                                //Contador de pontos
     public int vida = 100;                                  //Vida do personagem
 
     public Game() {
@@ -20,7 +22,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(){                                      //Atualiza o jogo
-        // vida --;
+        
     }
 
     public void render(){                                     //Renderiza o jogo
@@ -34,11 +36,27 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.BLACK);      //Define a cor do fundo grafico como preta
         g.fillRect(0, 0, WIDTH, HEIGHT);  //Pinta o fundo do tamanho da tela
 
-        // g.setFont(new Font("Arial", Font.PLAIN, 12));
-        // g.drawString("Pontos: " + contador, WIDTH/2 - 30, 20);
 
-        g.setColor(Color.RED);
-        g.fillRect(20, 20, vida*2, 20);
+        ImageIcon icon = new ImageIcon("src/img/favorito (2).png");
+        Image image = icon.getImage(); // Retrieve the Image from the ImageIcon
+
+
+        if (vida > 0) {
+            int numImages = (vida / 25) + (vida % 25 == 0 ? 0 : 1);
+            int startX = 20;
+            for (int i = 0; i < numImages; i++) {
+                g.drawImage(image, startX + i * 40, 20, this);
+            }
+        } else {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.PLAIN, 12));
+            g.drawString("Game Over", 300, 240);
+        }
+        
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.drawString("Pontos: " + contador, 550, 35);
+
         bs.show();
         //teste 
     }
