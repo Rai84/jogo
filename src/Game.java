@@ -3,21 +3,49 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable {
-    public static final int WIDTH = 640, HEIGHT = 480;
+    public static int WIDTH = 1920, HEIGHT = 1200;
 
-    private int contador = 0;
+    private int contador = 1000;
+    private boolean chave = false;
     private Personagem personagem;
-    private Image imagemPersonagem;
+    private ImagemComColisao imagemCoracao;
+    private ImagemComColisao imagemChao;
+    private ImagemComColisao imagemPortaAberta;
+    private ImagemComColisao imagemPortaFechada;
+    private ImagemComColisao imagemChave;
+    private Teclado teclado;
 
     public Game() {
         Dimension dimension = new Dimension(WIDTH, HEIGHT);
         this.setPreferredSize(dimension);
-        this.personagem = new Personagem();
-        this.imagemPersonagem = Imagens.carregarImagem("src/img/favorito (2).png");
+        this.teclado = new Teclado();
+        this.personagem = new Personagem(teclado);
+        this.imagemCoracao = Imagens.carregarCoracao(Imagens.Coracao);
+        this.imagemChao = Imagens.carregarChao(Imagens.Chao);
+        this.imagemPortaAberta = Imagens.carregarPortaAberta(Imagens.PortaAberta);
+        this.imagemPortaFechada = Imagens.carregarPortaFechada(Imagens.PortaFechada);
+        this.imagemChave = Imagens.carregarChave(Imagens.Chave);
+        this.addKeyListener(teclado);
+        this.setFocusable(true);
     }
 
     public void update() {
-        // Atualizar lógica do jogo aqui
+        teclado.update();
+        personagem.mover();
+        personagem.diminuirVida(0);
+
+        
+        imagemChave.setPosition(840, 850);
+        imagemPortaFechada.setPosition(1740, 657);
+        imagemPortaAberta.setPosition(1740, 657);
+
+        
+        if (imagemChave.isVisible() && Imagens.verificarColisao(imagemChave, personagem.getBounds())) {
+            chave = true;  
+            imagemChave.setVisible(false);  
+        }
+
+        
     }
 
     public void render() {
@@ -28,10 +56,24 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(185, 185, 185));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        personagem.desenharVida(g, imagemPersonagem);
+        personagem.desenhoPersonagem(g);
+        personagem.Vida(g, imagemCoracao.getImage());
+        Imagens.Chao(g, imagemChao);
+
+        Obstaculo.nivel(g);
+
+        if (imagemChave.isVisible()) {
+            g.drawImage(imagemChave.getImage(), 840, 850, null);
+        }
+
+        if (!chave) {
+            g.drawImage(imagemPortaFechada.getImage(), 1740, 657, null);
+        } else {
+            g.drawImage(imagemPortaAberta.getImage(), 1740, 657, null);
+        }
 
         if (personagem.getVida() <= 0) {
             g.setColor(Color.WHITE);
@@ -39,10 +81,11 @@ public class Game extends Canvas implements Runnable {
             g.drawString("Game Over", 300, 240);
         }
 
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.PLAIN, 12));
-        g.drawString("Pontos: " + contador, 550, 35);
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.PLAIN, 32));
+        g.drawString("Pontos: " + contador, 1700, 50);
 
+        g.dispose();
         bs.show();
     }
 
@@ -54,6 +97,8 @@ public class Game extends Canvas implements Runnable {
         jframe.pack();
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(true);
+
+        game.requestFocus();
 
         new Thread(game).start();
     }
