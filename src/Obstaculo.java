@@ -6,7 +6,7 @@ import java.awt.*;
 public class Obstaculo {
     public static void obs1(Graphics g){
         g.setColor(Color.RED);
-        g.fillRect(100, 100, 50, 50); 
+        g.fillRect(200, 860, 100, 36); 
     }
     public static void obs2(Graphics g){
         g.setColor(Color.black);
