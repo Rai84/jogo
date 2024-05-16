@@ -8,11 +8,11 @@ public class Game extends Canvas implements Runnable {
     private int contador = 1000;
     private boolean chave = false;
     private Personagem personagem;
-    private ImagemComColisao imagemCoracao;
-    private ImagemComColisao imagemChao;
-    private ImagemComColisao imagemPortaAberta;
-    private ImagemComColisao imagemPortaFechada;
-    private ImagemComColisao imagemChave;
+    private Colisao imagemCoracao;
+    private Colisao imagemChao;
+    private Colisao imagemPortaAberta;
+    private Colisao imagemPortaFechada;
+    private Colisao imagemChave;
     private Teclado teclado;
 
     public Game() {
@@ -30,7 +30,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void update() {
-        teclado.update();                                                                         // ATUALIZAR O TECLADO
+        teclado.update();
         personagem.mover();                                                                        // MOVER O PERSONAGEM
         personagem.diminuirVida(0);                                            // DIMINUIR VIDA DO PERSONAGEM
 
