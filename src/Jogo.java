@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.KeyListener;
 
+
 public class Jogo {
-    private final int WIDTH, HEIGHT, CHAO;
-    private int contador = 100;
+    private final int WIDTH, HEIGHT;
+    private final int CHAO;
     private final Image imagemCoracao;
     private final Image imagemChao;
+    private final Image imagemBTN;
     private final Teclado teclado;
     private final Personagem personagem;
     private final Objeto objeto;
@@ -18,8 +20,11 @@ public class Jogo {
         this.personagem = new Personagem(CHAO, teclado);
         this.imagemCoracao = Imagens.carregarCoracao();
         this.imagemChao = Imagens.carregarChao();
+        this.imagemBTN = Imagens.carregarBTN();
+
         this.objeto = new Objeto(CHAO, WIDTH, personagem);
     }
+    
 
     public void update() {
         teclado.update();
@@ -27,17 +32,20 @@ public class Jogo {
         objeto.verificarColisaoChave();
         objeto.verificarColisaoObstaculos();
         objeto.verificarColisaoPorta();
+        
+        // if (personagem.getVida() <= 0) {
+        //     recomecar();
+        // }
     }
 
     public void render(Graphics g) {
         Fundo(g);
         Chao(g);
-        Pontos(g);
-        nivel(g); // Renderizar obstáculos antes do personagem
-        personagem.desenhoPersonagem(g);
-        personagem.Vida(g, imagemCoracao);
-        objeto.ChaveEPorta(g);
-        GameOver(g);
+        if (personagem.getVida() > 0) {
+            nivel(g);
+        } else {
+            GameOver(g); // Renderiza a tela de Game Over apenas se o jogo terminou
+        }
     }
 
     private void Fundo(Graphics g) {
@@ -54,8 +62,6 @@ public class Jogo {
         }
     }
 
-    
-
     private void GameOver(Graphics g) {
         if (personagem.getVida() <= 0) {
             g.setColor(Color.BLACK);
@@ -63,27 +69,33 @@ public class Jogo {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, 30));
             g.drawString("Game Over", WIDTH / 2 - 80, HEIGHT / 2);
+            g.drawImage(imagemBTN, WIDTH / 2 + 100, HEIGHT / 2 - 18, null);
+            personagem.setVida(100);
+            personagem.PersonagemStart();
+            objeto.setNivel(1);
         }
     }
 
+    public void recomecar() {
+        personagem.setVida(100);
+        objeto.setNivel(1);
+        objeto.generateRandomNumbers();
+        personagem.PersonagemStart();
+    }
+
     public void nivel(Graphics g) {
-        objeto.nivel(g);
-
+        objeto.nivel(g);  
+        objeto.ChaveEPorta(g);
+        
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 32));
-        g.drawString("Nível: " + objeto.getNivel(), WIDTH - 200, 100);
+        g.drawString("Nível: " + objeto.getNivel(), WIDTH - 150, 70);
+        objeto.nivel(g); 
+        personagem.desenhoPersonagem(g);
+        personagem.Vida(g, imagemCoracao);
     }
-
-    private void Pontos(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 32));
-        g.drawString("Pontos: " + contador, WIDTH - 200, 50);
-    }
-
-    
 
     public KeyListener getTeclado() {
         return teclado;
     }
 }
-

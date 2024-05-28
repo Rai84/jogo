@@ -32,6 +32,18 @@ public class Imagens {
         return carregarImagem("/img/Espinho2.png");
     }
 
+    public static Image carregarObs3() {
+        return carregarImagem("/img/Vector 2.png");
+    }
+
+    public static Image carregarObs4() {
+        return carregarImagem("/img/Fogo.png");
+    }
+
+    public static Image carregarBTN() {
+        return carregarImagem("/img/Polygon 1.png");
+    }
+
     private static Image carregarImagem(String caminho) {
         try {
             URL url = Imagens.class.getResource(caminho);

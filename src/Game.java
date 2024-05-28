@@ -3,10 +3,11 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable {
-    public static int WIDTH = 1500, HEIGHT = 900;
+    public static int WIDTH = 1500, HEIGHT = 700;
 
     private Jogo jogo;
     private Thread thread;
+    private JFrame frame;
 
     public Game() {
         Dimension dimension = new Dimension(WIDTH, HEIGHT);
@@ -41,6 +42,7 @@ public class Game extends Canvas implements Runnable {
         jframe.setLocationRelativeTo(null);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(true);
+        game.setFrame(jframe); // Defina a referência do JFrame
         game.start();
     }
 
@@ -68,5 +70,13 @@ public class Game extends Canvas implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

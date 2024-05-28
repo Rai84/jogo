@@ -12,10 +12,7 @@ public class Personagem {
     private final int alturaPulo = 100; 
     private final int gravidade = 5;
     
-    public void PersonagemStart(){
-        this.x = 100;
-        this.y = CHAO - altura;
-    }
+
 
     public Personagem(int CHAO, Teclado teclado) {
         this.y = CHAO - 50;
@@ -38,8 +35,8 @@ public class Personagem {
             }
         }
 
-        if (teclado.esquerda) x -= 20;
-        if (teclado.direita) x += 20;
+        if (teclado.esquerda) x -= 15;
+        if (teclado.direita) x += 15;
 
         // Ensure the character stays within the bounds of the game window
         if (x < 0) x = 0;
@@ -72,4 +69,27 @@ public class Personagem {
     public Rectangle getBounds() {
         return new Rectangle(x, y, largura, altura);
     }
+
+    public void PersonagemStart() {
+        this.x = 50; // Posição inicial segura para evitar colisão com a porta
+        this.y = CHAO - altura; // Ajuste conforme necessário
+    }
+    
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 }
