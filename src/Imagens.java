@@ -1,42 +1,44 @@
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class Imagens {
-    public static String Coracao = "src/img/favorito.png";
-    public static String Chao = "src/img/chao.png";
-    public static String PortaAberta = "src/img/portaAberta.png";
-    public static String PortaFechada = "src/img/portaFechada.png";
-    public static String Chave = "src/img/chave.png";
-    public static String Espinho = "src/img/epinho.png";
-
-    public static Colisao carregarCoracao(String caminho) {
-        return new Colisao(caminho);
+    public static Image carregarPortaAberta() {
+        return carregarImagem("/img/portaAberta.png");
     }
 
-    public static Colisao carregarChao(String caminho) {
-        return new Colisao(caminho);
+    public static Image carregarPortaFechada() {
+        return carregarImagem("/img/portaFechada.png");
     }
 
-    public static Colisao carregarPortaAberta(String caminho) {
-        return new Colisao(caminho);
+    public static Image carregarChao() {
+        return carregarImagem("/img/chao.png");
     }
 
-    public static Colisao carregarPortaFechada(String caminho) {
-        return new Colisao(caminho);
+    public static Image carregarCoracao() {
+        return carregarImagem("/img/favorito.png");
     }
 
-    public static Colisao carregarChave(String caminho) {
-        return new Colisao(caminho);
+    public static Image carregarChave() {
+        return carregarImagem("/img/chave.png");
     }
 
-    public static void Chao(Graphics g, Colisao imagem) {
-        int numImagens = 1920 / 96;
-        for (int i = 0; i < numImagens; i++) {
-            g.drawImage(imagem.getImage(), i * 100, 890, null);
+    public static Image carregarObs1() {
+        return carregarImagem("/img/Espinho.png");
+    }
+
+    public static Image carregarObs2() {
+        return carregarImagem("/img/Espinho2.png");
+    }
+
+    private static Image carregarImagem(String caminho) {
+        try {
+            URL url = Imagens.class.getResource(caminho);
+            return ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-    }
-
-    public static boolean verificarColisao(Colisao img1, Rectangle rect) {
-        return img1.colideCom(rect);
     }
 }

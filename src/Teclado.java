@@ -1,7 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Teclado implements KeyListener{
+public class Teclado implements KeyListener {
 
     private boolean[] teclas = new boolean[256];
     public boolean cima, baixo, esquerda, direita, espaco;
@@ -15,20 +15,17 @@ public class Teclado implements KeyListener{
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { // Tecla pressionada
-        System.out.println("Tecla digitada: " + e.getKeyChar());
+    public void keyTyped(KeyEvent e) {
+        // No action needed
     }
 
     @Override
-    public void keyPressed(KeyEvent e) { // Tecla pressionada
+    public void keyPressed(KeyEvent e) {
         teclas[e.getKeyCode()] = true;
-        System.out.println("Tecla pressionada: " + e.getKeyChar());
     }
 
     @Override
-    public void keyReleased(KeyEvent e) { // Tecla liberada
+    public void keyReleased(KeyEvent e) {
         teclas[e.getKeyCode()] = false;
-        System.out.println("Tecla liberada: " + e.getKeyChar());
     }
-    
 }
