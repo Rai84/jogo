@@ -1,3 +1,5 @@
+package jogo;
+
 import java.awt.*;
 
 public class Colisao {
